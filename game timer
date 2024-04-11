@@ -1,0 +1,55 @@
+function createTimeBoxElement() {
+  const timeBoxElement = document.createElement('div');
+  timeBoxElement.id = 'timeBox';
+  timeBoxElement.style.position = 'fixed';
+  timeBoxElement.style.bottom = '10px'; // Adjust as needed
+  timeBoxElement.style.left = '50%'; // Adjust as needed
+  timeBoxElement.style.transform = 'translateX(-50%)'; // Center horizontally
+  timeBoxElement.style.fontSize = '24px';
+  timeBoxElement.style.fontWeight = 'bold';
+  timeBoxElement.style.color = '#ffffff'; // White color, adjust as needed
+  timeBoxElement.style.backgroundColor = '#000000'; // Black background color, adjust as needed
+  timeBoxElement.style.padding = '10px 20px';
+  timeBoxElement.style.borderRadius = '5px';
+  timeBoxElement.textContent = "Remaining Time: 7:00"; // Initial value
+  document.body.appendChild(timeBoxElement);
+}
+
+function updateRemainingTime(remainingTime) {
+  const timeBoxElement = document.getElementById('timeBox');
+  if (timeBoxElement) {
+    timeBoxElement.textContent = "Remaining Time: " + remainingTime;
+  } else {
+    console.error("Time box element not found");
+  }
+}
+
+function updateCountdownTimer() {
+  const now = new Date();
+  const startTime = now.getTime();
+  const endTime = startTime + (7 * 60 * 1000); // 7 minutes in milliseconds
+
+  setInterval(() => {
+    const currentTime = new Date().getTime();
+    const remainingTime = Math.max(0, Math.ceil((endTime - currentTime) / 1000));
+    updateRemainingTime(formatTime(remainingTime));
+  }, 1000);
+}
+
+function formatTime(totalSeconds) {
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+  return `${minutes}:${String(seconds).padStart(2, '0')}`;
+}
+
+function onPageLoad() {
+  if (window.location.pathname === '/play/fishing') {
+    // Create the time box element
+    createTimeBoxElement();
+
+    // Start the countdown timer
+    updateCountdownTimer();
+  }
+}
+
+window.onload = onPageLoad;
