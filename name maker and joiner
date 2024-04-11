@@ -1,0 +1,43 @@
+makes your username random and it joins // Function to generate a random username
+
+
+function generateUsername() {
+    const characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    const usernameLength = 8;
+    let username = '';
+    for (let i = 0; i < usernameLength; i++) {
+        username += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+    return username;
+}
+function setGeneratedUsername() {
+    // Generate a username
+    const username = generateUsername();
+
+    // Find the input element by its class name
+    const inputElement = document.querySelector('input._nameInput_1pk02_71');
+    
+    if (inputElement) {
+        inputElement.value = username;
+    } else {
+        console.error('Input element not found.');
+    }
+}
+
+function handleSubmitButtonClick() {
+    const submitButton = document.querySelector('div._joinButton_1pk02_95');
+
+    if (submitButton) {
+        submitButton.addEventListener('click', function() {
+            setGeneratedUsername();
+            const errorMessage = document.querySelector('div._errorBar_1pk02_119');
+            if (errorMessage) {
+                errorMessage.style.display = 'none';
+            }
+        });
+    } else {
+        console.error('Submit button not found.');
+    }
+}
+
+handleSubmitButtonClick();
